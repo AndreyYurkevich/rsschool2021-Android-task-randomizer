@@ -1,5 +1,7 @@
 package com.rsschool.android2021
 
+
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +10,17 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
+
 class SecondFragment : Fragment() {
 
     private var backButton: Button? = null
     private var result: TextView? = null
+    private lateinit var activityInterface: Interface
+
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        activityInterface =  activity as Interface
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,14 +41,17 @@ class SecondFragment : Fragment() {
         result?.text = generate(min, max).toString()
 
         backButton?.setOnClickListener {
-            // TODO: implement back
+            activityInterface.setFirstFragment_toStart(result?.text.toString().toInt())
         }
     }
 
+
+
     private fun generate(min: Int, max: Int): Int {
-        // TODO: generate random number
-        return 0
+        return (min..max).random()
     }
+
+
 
     companion object {
 
@@ -47,13 +59,20 @@ class SecondFragment : Fragment() {
         fun newInstance(min: Int, max: Int): SecondFragment {
             val fragment = SecondFragment()
             val args = Bundle()
-
-            // TODO: implement adding arguments
-
+            args.putInt(MIN_VALUE_KEY, min)
+            args.putInt(MAX_VALUE_KEY, max)
+            fragment.arguments = args
             return fragment
+            // TODO: implement adding arguments
         }
 
         private const val MIN_VALUE_KEY = "MIN_VALUE"
         private const val MAX_VALUE_KEY = "MAX_VALUE"
     }
+
+    fun Back(){
+        activityInterface.setFirstFragment_toStart(result?.text.toString().toInt())
+    }
+
+
 }
