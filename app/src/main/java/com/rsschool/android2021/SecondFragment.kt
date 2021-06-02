@@ -70,8 +70,8 @@ class SecondFragment : Fragment() {
         private const val MAX_VALUE_KEY = "MAX_VALUE"
     }
 
-    fun Back(){
-        activityInterface.setFirstFragment_toStart(result?.text.toString().toInt())
+    fun Back() : Int{
+      return  result?.text.toString().toInt()
     }
 
 

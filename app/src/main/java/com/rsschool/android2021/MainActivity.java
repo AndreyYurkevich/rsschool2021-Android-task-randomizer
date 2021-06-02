@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity implements Interface {
  // public SecondFragment secondFragment = null;
+ private static final String SECOND_FRAGMENT_TAG = "secondFragment";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,19 +31,21 @@ public class MainActivity extends AppCompatActivity implements Interface {
         // TODO: implement it
         final  Fragment secondFragment = SecondFragment.newInstance(min,max);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, secondFragment);
+        transaction.replace(R.id.container, secondFragment,SECOND_FRAGMENT_TAG);
         transaction.commit();
     }
 
 
-//    public void onBackPressed() {
-//        if(secondFragment.isResumed()){
-//            secondFragment.Back();
-//        }
-//        else{
-//            super.onBackPressed();
-//        }
-//    }
+    public void onBackPressed() {
+        SecondFragment secondFragment = (SecondFragment) getSupportFragmentManager()
+                .findFragmentByTag(SECOND_FRAGMENT_TAG);
+
+        if ( secondFragment != null && secondFragment.isAdded() ) {
+            openFirstFragment(secondFragment.Back());
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public void setFirstFragment_toStart(int early_number) {
